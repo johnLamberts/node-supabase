@@ -11,7 +11,9 @@ logs/*.log
 # Optional stylelint cache
 .stylelintcache
 
-
+node_modules
 
 # dotenv environment variable files
+.env
+
 .env
