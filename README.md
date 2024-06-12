@@ -56,6 +56,7 @@ npm run dev
 
 ## Project Structure
 
+```javascript
 node-supabase/
 │
 ├── src/
@@ -80,3 +81,4 @@ node-supabase/
 ├── package.json
 ├── tsconfig.json
 └── README.md
+```
