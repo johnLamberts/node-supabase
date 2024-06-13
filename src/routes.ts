@@ -4,6 +4,7 @@ import fs from "fs";
 
 export const initializedRoutes = (app: Application) => {
   const modulesDir = path.join(__dirname, "modules");
+
   initializedController(modulesDir, app);
 };
 
