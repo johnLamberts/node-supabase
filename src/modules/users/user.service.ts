@@ -1,5 +1,4 @@
-import supabase from "@/config/supabase";
-import supabaseAdmin from "../../config/supabase-admin";
+import supabaseAdmin from "@/config/supabase-admin";
 import { Request, Response } from "express";
 export class UserService {
   async createUser(req: Request, res: Response) {
@@ -12,13 +11,12 @@ export class UserService {
       });
 
       if (error) {
-        res.status(parseInt(`${error.status}`, 10)).send({
+        return res.status(parseInt(`${error.status}`, 10)).send({
           error: error?.message,
           code: error.code,
         });
       }
-
-      return res.json({
+      res.send({
         message: "Success",
         content: data,
       });
@@ -75,31 +73,27 @@ export class UserService {
   }
 
   async updateUser(req: Request, res: Response) {
-    const { email, password } = req.body;
-    console.log(req.params.userId);
     try {
-      // const { data, error } = await supabaseAdmin.auth.admin.updateUserById(
-      //   req.params.userId,
-      //   {
-      //     email: email,
-      //   }
-      // );
+      const { data, error } = await supabaseAdmin.auth.admin.updateUserById(
+        req.params.userId,
+        {
+          ...req.body,
+        }
+      );
 
-      // console.log(error);
+      if (error) {
+        return res.status(error.status || 400).send({
+          error: error?.message,
+          code: error.code,
+        });
+      }
 
-      // if (error) {
-      //   res.status(error.status || 400).send({
-      //     error: error?.message,
-      //     code: error.code,
-      //   });
-      // }
-
-      return res.json({
+      res.json({
         message: "Success",
-        content: req.body,
+        content: data,
       });
     } catch (err) {
-      console.error(err);
+      console.error("ERR!!", err);
       res.status(500).json({ error: "An unexpected error occured" });
     }
   }
