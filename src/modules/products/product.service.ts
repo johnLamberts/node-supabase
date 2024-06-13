@@ -1,4 +1,4 @@
-import supabase from "../../config/supabase";
+import supabase from "@/config/supabase";
 import { Request, Response } from "express";
 
 export class ProductService {
@@ -25,15 +25,13 @@ export class ProductService {
         error: error.message,
       });
 
-    return res.json({
+    res.json({
       message: "Success",
       content: req.body,
     });
   }
 
   async updateProduct(req: Request, res: Response) {
-    console.log(parseInt(req.params.id, 10), req.body);
-
     const { data, error } = await supabase
       .from("products")
       .update({
@@ -43,15 +41,13 @@ export class ProductService {
       .select();
 
     if (error)
-      res.status(parseInt(`${error.code || "500"}`, 10)).send({
+      return res.status(parseInt(`${error.code || "500"}`, 10)).send({
         error: error.message,
       });
 
-    console.log(data);
-
-    return res.json({
+    res.json({
       message: `${req.params.id} has been updated!`,
-      content: req.body,
+      content: data,
     });
   }
 }
